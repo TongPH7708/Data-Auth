@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS authentication;
+use authentication;
+CREATE TABLE authenti_users(
+   id INT NOT NULL AUTO_INCREMENT,
+   email VARCHAR(75) NOT NULL UNIQUE,
+   password VARCHAR(255) NOT NULL,
+   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

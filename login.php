@@ -25,6 +25,17 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $db -> $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $statement = $db -> prepare('SELECT * FROM users WHERE email= :email');
+    $statement -> execute([':email'=>$email]);
+    $user =$statement ->fetch(PDO::FETCH_OBJ);
+
+    if($user &&password_verify($password, $user ->password)){
+        $_SESSION['authenticated']=true;
+        $_SESSION['email']= $user ->email;
+        header('Location:index.php');
+        exit;
+    }else{
+        echo"Invalid email or password";
+    }
 }
 ?>
 
@@ -36,6 +47,18 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     <title>Document</title>
 </head>
 <body>
+
+<h2>Login</h2>
+
+    <form method="POST" action="">
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
     
 </body>
 </html>
